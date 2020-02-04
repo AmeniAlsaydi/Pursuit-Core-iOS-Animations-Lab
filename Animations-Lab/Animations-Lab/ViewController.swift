@@ -67,11 +67,17 @@ class ViewController: UIViewController {
         let stepper = UIStepper()
         stepper.minimumValue = 0.01
         stepper.maximumValue = 4.0
+        stepper.value = duration
         stepper.stepValue = 0.2
         stepper.addTarget(self, action: #selector(durationChanged(sender:)), for: .touchUpInside)
         return stepper
     }()
         
+    lazy var durationLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Current time: \(String(format: "%.2f", duration))"
+        return label
+    }()
     
     lazy var blueSquareHeightConstaint: NSLayoutConstraint = {
         blueSquare.heightAnchor.constraint(equalToConstant: 200)
@@ -97,6 +103,7 @@ class ViewController: UIViewController {
     
     @IBAction func durationChanged(sender: UIStepper) {
         duration = sender.value
+        durationLabel.text = "Current time: \(String(format: "%.2f", sender.value))"
     }
     
     @IBAction func animateSquareUp(sender: UIButton) {
@@ -132,10 +139,11 @@ class ViewController: UIViewController {
             
     }
         private func addSubviews() {
-            view.addSubview(blueSquare)
             addStackViewSubviews()
+            view.addSubview(blueSquare)
             view.addSubview(buttonStackView)
             view.addSubview(stepper)
+            view.addSubview(durationLabel)
         }
         
         private func addStackViewSubviews() {
@@ -153,6 +161,7 @@ class ViewController: UIViewController {
             constrainRightButton()
             constrainButtonStackView()
             constrainStepper()
+            constrainDurationLabel()
         }
         
         private func constrainUpButton() {
@@ -206,6 +215,11 @@ class ViewController: UIViewController {
             stepper.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             stepper.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20)
         ])
+    }
+    
+    private func constrainDurationLabel() {
+        durationLabel.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([durationLabel.leadingAnchor.constraint(equalTo: stepper.trailingAnchor, constant: 20), durationLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20)])
     }
 }
 
