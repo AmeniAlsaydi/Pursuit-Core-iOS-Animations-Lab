@@ -16,8 +16,7 @@ class ViewController: UIViewController {
     
     lazy var blueSquare: UIImageView = {
         let view = UIImageView()
-        view.image = UIImage(systemName: "cloud.sun") // change image
-        view.backgroundColor = .green // change color 
+        view.image = UIImage(named: "beach-ball") // change image
         return view
     }()
     
@@ -32,36 +31,44 @@ class ViewController: UIViewController {
     
     lazy var upButton: UIButton = {
         let button = UIButton()
+        button.layer.cornerRadius = 13
         button.setTitle("Up", for: .normal)
+        button.titleLabel?.font = UIFont.monospacedDigitSystemFont(ofSize: 17, weight: .thin)
         button.setTitleColor(.black, for: .normal)
-        button.backgroundColor = .cyan
+        button.backgroundColor = #colorLiteral(red: 0.9568627477, green: 0.6588235497, blue: 0.5450980663, alpha: 1)
         button.addTarget(self, action: #selector(animateSquareUp(sender:)), for: .touchUpInside)
         return button
     }()
     
     lazy var downButton: UIButton = {
         let button = UIButton()
+        button.layer.cornerRadius = 13
         button.setTitle("Down", for: .normal)
+        button.titleLabel?.font = UIFont.monospacedDigitSystemFont(ofSize: 17, weight: .thin)
         button.setTitleColor(.black, for: .normal)
-        button.backgroundColor = .cyan
+        button.backgroundColor = #colorLiteral(red: 0.9568627477, green: 0.6588235497, blue: 0.5450980663, alpha: 1)
         button.addTarget(self, action: #selector(animateSquareDown(sender:)), for: .touchUpInside)
         return button
     }()
     
     lazy var leftButton: UIButton = {
         let button = UIButton()
+        button.layer.cornerRadius = 13
         button.setTitle("Left", for: .normal)
+        button.titleLabel?.font = UIFont.monospacedDigitSystemFont(ofSize: 17, weight: .thin)
         button.setTitleColor(.black, for: .normal)
-        button.backgroundColor = .yellow
+        button.backgroundColor = #colorLiteral(red: 0.9764705896, green: 0.850980401, blue: 0.5490196347, alpha: 1)
         button.addTarget(self, action: #selector(animateSquareLeft(sender:)), for: .touchUpInside)
         return button
     }()
     
     lazy var rightButton: UIButton = {
         let button = UIButton()
+        button.layer.cornerRadius = 13
         button.setTitle("Right", for: .normal)
+        button.titleLabel?.font = UIFont.monospacedDigitSystemFont(ofSize: 17, weight: .thin)
         button.setTitleColor(.black, for: .normal)
-        button.backgroundColor = .yellow
+        button.backgroundColor = #colorLiteral(red: 0.9764705896, green: 0.850980401, blue: 0.5490196347, alpha: 1)
         button.addTarget(self, action: #selector(animateSquareRight(sender:)), for: .touchUpInside)
         return button
     }()
@@ -90,11 +97,13 @@ class ViewController: UIViewController {
     lazy var durationLabel: UILabel = {
         let label = UILabel()
         label.text = "Current time: \(String(format: "%.2f", duration))"
+        label.font = UIFont.monospacedDigitSystemFont(ofSize: 15, weight: .thin)
         return label
     }()
     
     lazy var distanceLabel: UILabel = {
         let label = UILabel()
+        label.font = UIFont.monospacedDigitSystemFont(ofSize: 15, weight: .thin)
         label.text = "Current distance: \(String(format: "%.0f", distance))"
         return label
     }()
@@ -150,7 +159,7 @@ class ViewController: UIViewController {
     @IBAction func animateSquareUp(sender: UIButton) {
         let oldOffset = blueSquareCenterYConstraint.constant
         blueSquareCenterYConstraint.constant = oldOffset - distance
-        UIView.animate(withDuration: duration, delay: 0.0, options: [animationType ?? .repeat], animations: {
+        UIView.animate(withDuration: duration, delay: 0.0, options: [animationType ?? .curveEaseIn], animations: {
             self.view.layoutIfNeeded()
         }, completion: nil)
     }
@@ -159,7 +168,7 @@ class ViewController: UIViewController {
         let oldOffet = blueSquareCenterYConstraint.constant
         blueSquareCenterYConstraint.constant = oldOffet + distance
         
-        UIView.animate(withDuration: duration, delay: 0.0, options: [animationType ?? .repeat], animations: {
+        UIView.animate(withDuration: duration, delay: 0.0, options: [animationType ?? .curveEaseIn], animations: {
             self.view.layoutIfNeeded()
         }, completion: nil)
         
@@ -169,7 +178,7 @@ class ViewController: UIViewController {
         let oldOffet = blueSquareCenterXConstraint.constant
         blueSquareCenterXConstraint.constant = oldOffet - distance
         
-        UIView.animate(withDuration: duration, delay: 0.0, options: [animationType ?? .repeat], animations: {
+        UIView.animate(withDuration: duration, delay: 0.0, options: [animationType ?? .curveEaseIn], animations: {
             self.view.layoutIfNeeded()
         }, completion: nil)
         
@@ -179,7 +188,7 @@ class ViewController: UIViewController {
         let oldOffet = blueSquareCenterXConstraint.constant
          self.blueSquareCenterXConstraint.constant = oldOffet + self.distance
         
-        UIView.animate(withDuration: duration, delay: 0.0, options: [animationType ?? .repeat], animations: {
+        UIView.animate(withDuration: duration, delay: 0.0, options: [animationType ?? .curveEaseIn], animations: {
             self.view.layoutIfNeeded()
         }, completion: nil)
             
