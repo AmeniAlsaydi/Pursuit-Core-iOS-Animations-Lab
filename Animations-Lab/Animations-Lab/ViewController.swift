@@ -12,10 +12,12 @@ class ViewController: UIViewController {
     
     private var duration: Double = 2
     private var distance: CGFloat = 100
+    private var animationType: UIView.AnimationOptions? = nil
     
-    lazy var blueSquare: UIView = {
-        let view = UIView()
-        view.backgroundColor = .blue
+    lazy var blueSquare: UIImageView = {
+        let view = UIImageView()
+        view.image = UIImage(systemName: "cloud.sun") // change image
+        view.backgroundColor = .green // change color 
         return view
     }()
     
@@ -115,9 +117,25 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setUpNavBar()
+        view.backgroundColor = .white
+        
         addSubviews()
         configureConstraints()
     }
+    
+    private func setUpNavBar(){
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.title = "Animation"
+        
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "line.horizontal.3"), style: .plain, target: self, action: #selector(showSettings(_:)))
+    }
+    
+ @IBAction func showSettings(_ sender: UIBarButtonItem) {
+    let settingsVC = SettingsController()
+    settingsVC.delegate = self
+    navigationController?.pushViewController(settingsVC, animated: true)
+       }
     
     @IBAction func distanceChanged(sender: UIStepper) {
         distance = CGFloat(sender.value)
@@ -132,33 +150,38 @@ class ViewController: UIViewController {
     @IBAction func animateSquareUp(sender: UIButton) {
         let oldOffset = blueSquareCenterYConstraint.constant
         blueSquareCenterYConstraint.constant = oldOffset - distance
-        UIView.animate(withDuration: duration) { [unowned self] in
+        UIView.animate(withDuration: duration, delay: 0.0, options: [animationType ?? .repeat], animations: {
             self.view.layoutIfNeeded()
-        }
+        }, completion: nil)
     }
     
     @IBAction func animateSquareDown(sender: UIButton) {
         let oldOffet = blueSquareCenterYConstraint.constant
         blueSquareCenterYConstraint.constant = oldOffet + distance
-        UIView.animate(withDuration: duration) { [unowned self] in
+        
+        UIView.animate(withDuration: duration, delay: 0.0, options: [animationType ?? .repeat], animations: {
             self.view.layoutIfNeeded()
-        }
+        }, completion: nil)
+        
     }
     
     @IBAction func animateSquareLeft(sender: UIButton) {
         let oldOffet = blueSquareCenterXConstraint.constant
         blueSquareCenterXConstraint.constant = oldOffet - distance
-        UIView.animate(withDuration: duration) { [unowned self] in
+        
+        UIView.animate(withDuration: duration, delay: 0.0, options: [animationType ?? .repeat], animations: {
             self.view.layoutIfNeeded()
-        }
+        }, completion: nil)
+        
     }
         
     @IBAction func animateSquareRight(sender: UIButton) {
         let oldOffet = blueSquareCenterXConstraint.constant
-        blueSquareCenterXConstraint.constant = oldOffet + distance
-        UIView.animate(withDuration: duration) { [unowned self] in
+         self.blueSquareCenterXConstraint.constant = oldOffet + self.distance
+        
+        UIView.animate(withDuration: duration, delay: 0.0, options: [animationType ?? .repeat], animations: {
             self.view.layoutIfNeeded()
-        }
+        }, completion: nil)
             
     }
         private func addSubviews() {
@@ -262,6 +285,13 @@ class ViewController: UIViewController {
             //distanceLabel.topAnchor.constraint(equalTo: durationLabel.bottomAnchor, constant: 20)
         ])
     }
+}
+
+extension ViewController: SettingsDelegate {
+    func didSelectRow(selectedAnimation: UIView.AnimationOptions) {
+        animationType =  selectedAnimation
+    }
+    
 }
 
 
